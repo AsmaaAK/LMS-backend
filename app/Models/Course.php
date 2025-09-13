@@ -63,7 +63,7 @@ class Course extends Model
         return $this->enrollments()->count();
     }
 
-    // النطاقات (Scopes)
+    //(Scopes)
     public function scopePublished($query)
     {
         return $query->where('is_published', true);
