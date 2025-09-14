@@ -20,6 +20,7 @@ return new class extends Migration
             $table->dateTime('deadline')->nullable();
             $table->integer('max_score')->default(100);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
