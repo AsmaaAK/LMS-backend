@@ -20,12 +20,10 @@ class CourseController extends Controller
         $query = Course::with(['instructor', 'category', 'lessons'])
             ->withCount(['lessons', 'enrollments']);
 
-        // التصفية حسب التصنيف
         if ($request->has('category_id')) {
             $query->where('category_id', $request->category_id);
         }
 
-        // التصفية حسب المستوى
         if ($request->has('level')) {
             $query->where('level', $request->level);
         }
