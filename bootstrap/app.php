@@ -4,8 +4,14 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use App\Policies\UserPolicy;
+use App\Models\User;
+
 
 return Application::configure(basePath: dirname(__DIR__))
+     ->withProviders([
+        \App\Providers\AuthServiceProvider::class, // أضف هذا السطر
+    ])
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         api: __DIR__.'/../routes/api.php',
