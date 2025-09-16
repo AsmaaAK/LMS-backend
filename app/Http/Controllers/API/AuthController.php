@@ -33,7 +33,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'User registered successfully',
-            'user' => $user,
+            'user' => $user->load('roles'), // إضافة الأدوار إلى response
             'access_token' => $token,
             'token_type' => 'Bearer',
         ]);
@@ -63,9 +63,9 @@ class AuthController extends Controller
             'message' => 'Login successful',
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $user
+            'user' => $user->load('roles') // إضافة الأدوار إلى response
         ]);
-    }
+        }
 
     public function logout(Request $request)
     {
@@ -78,6 +78,6 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return response()->json($request->user());
+    return response()->json($request->user()->load('roles')); // إضافة الأدوار إلى response
     }
 }
