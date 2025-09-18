@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
@@ -11,16 +12,19 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    /**
-     * عرض جميع المستخدمين ( للمشرفين فقط )
-     */
+    
     public function index()
     {
         // التحقق من الصلاحية باستخدام Policy
-        Gate::authorize('viewAny', User::class);
-        
+        if (!Gate::allows('viewAny', User::class)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Insufficient permissions.'
+            ], 403);
+        }
+
         $users = User::with('roles')->get();
-        
+
         return response()->json([
             'success' => true,
             'data' => $users,
@@ -29,13 +33,17 @@ class UserController extends Controller
     }
 
     /**
-     * إنشاء مستخدم جديد ( للمشرفين فقط )
+     * إنشاء مستخدم جديد (للمشرفين فقط)
      */
     public function store(Request $request)
     {
-        // التحقق من الصلاحية باستخدام Policy
-        Gate::authorize('create', User::class);
-        
+        if (!Gate::allows('create', User::class)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Insufficient permissions.'
+            ], 403);
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -72,9 +80,13 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        // التحقق من الصلاحية باستخدام Policy
-        Gate::authorize('view', $user);
-        
+        if (!Gate::allows('view', $user)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Insufficient permissions.'
+            ], 403);
+        }
+
         return response()->json([
             'success' => true,
             'data' => $user->load('roles'),
@@ -87,9 +99,13 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        // التحقق من الصلاحية باستخدام Policy
-        Gate::authorize('update', $user);
-        
+        if (!Gate::allows('update', $user)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Insufficient permissions.'
+            ], 403);
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|required|string|max:255',
             'email' => 'sometimes|required|email|unique:users,email,' . $user->id,
@@ -126,13 +142,17 @@ class UserController extends Controller
     }
 
     /**
-     * حذف المستخدم ( للمشرفين فقط )
+     * حذف المستخدم (للمشرفين فقط)
      */
     public function destroy(User $user)
     {
-        // التحقق من الصلاحية باستخدام Policy
-        Gate::authorize('delete', $user);
-        
+        if (!Gate::allows('delete', $user)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Insufficient permissions.'
+            ], 403);
+        }
+
         $user->delete();
 
         return response()->json([
@@ -142,12 +162,17 @@ class UserController extends Controller
     }
 
     /**
-     * الحصول على إحصائيات المستخدمين ( للمشرفين فقط )
+     * الحصول على إحصائيات المستخدمين
      */
     public function statistics()
     {
-        Gate::authorize('viewAny', User::class);
-        
+        if (!Gate::allows('viewAny', User::class)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Insufficient permissions.'
+            ], 403);
+        }
+
         $totalUsers = User::count();
         $adminUsers = User::whereHas('roles', function($query) {
             $query->where('name', 'admin');
