@@ -12,7 +12,14 @@ use Illuminate\Support\Facades\Route;
     // Route::get('./api/register', [AuthController::class, 'register']);
 
     Route::post('api/login', [AuthController::class, 'login']);
-    
+    Route::middleware('can:viewAny,App\Models\User')->group(function () {
+        Route::get('/users', [UserController::class, 'index']);
+        Route::post('/users', [UserController::class, 'store']);
+        Route::get('/users/statistics', [UserController::class, 'statistics']);
+        Route::get('/users/{user}', [UserController::class, 'show']);
+        Route::put('/users/{user}', [UserController::class, 'update']);
+        Route::delete('/users/{user}', [UserController::class, 'destroy']);
+    }); 
     // Protected routes
     // Route::middleware('auth:sanctum')->group(function () {
     //     Route::post('/logout', [AuthController::class, 'logout']);
