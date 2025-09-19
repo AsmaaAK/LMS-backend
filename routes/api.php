@@ -20,6 +20,15 @@ use Illuminate\Support\Facades\Route;
         Route::put('/users/{user}', [UserController::class, 'update']);
         Route::delete('/users/{user}', [UserController::class, 'destroy']);
     }); 
+    Route::get('/courses', [CourseController::class, 'index']);
+    Route::get('/courses/{course}', [CourseController::class, 'show']);
+    Route::get('/categories', [CategoryController::class, 'index']);
+    
+    // مسارات الطالب
+    Route::middleware(['auth:sanctum', 'role:student'])->group(function () {
+        Route::get('/student/courses', [StudentController::class, 'courses']);
+        Route::post('/courses/{course}/enroll', [StudentController::class, 'enroll']);
+    });
     // Protected routes
     // Route::middleware('auth:sanctum')->group(function () {
     //     Route::post('/logout', [AuthController::class, 'logout']);
