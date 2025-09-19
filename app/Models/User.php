@@ -34,12 +34,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // العلاقات
-    public function courses()
-    {
-        return $this->hasMany(Course::class);
-    }
-
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);
@@ -124,6 +118,19 @@ class User extends Authenticatable
          $query->where('name', $permission);
      })
      ->exists();
+    }
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'course_student')
+                    ->withPivot('progress', 'enrolled_at')
+                    ->withTimestamps();
+    }
+
+    public function completedLessons()
+    {
+        return $this->belongsToMany(Lesson::class, 'lesson_student')
+                    ->withPivot('completed_at')
+                    ->withTimestamps();
     }
     
 }

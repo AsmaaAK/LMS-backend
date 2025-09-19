@@ -3,7 +3,8 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CourseController;
 use App\Http\Controllers\API\UserController;
-
+use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\StudentController;
 use Illuminate\Support\Facades\Route;
 
 // Route::prefix('v1')->group(function () {

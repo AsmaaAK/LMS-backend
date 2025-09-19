@@ -8,9 +8,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /**
-     * الحصول على جميع التصنيفات
-     */
+    
     public function index()
     {
         try {
