@@ -31,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
         
         // أو بدلاً من ذلك يمكنك استخدام:
         $middleware->group('api', [
+            'throttle:api',
             EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,

@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Route;
 
 // Route::prefix('v1')->group(function () {
     // Authentication routes
-    Route::post('http://localhost:8000/api/register', [AuthController::class, 'register']);
+    Route::post('/register', [AuthController::class, 'register']);
     // Route::get('./api/register', [AuthController::class, 'register']);
 
-    Route::post('api/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login']);
     Route::middleware('can:viewAny,App\Models\User')->group(function () {
         Route::get('/users', [UserController::class, 'index']);
         Route::post('/users', [UserController::class, 'store']);

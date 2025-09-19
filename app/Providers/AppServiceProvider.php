@@ -10,6 +10,11 @@ use App\Models\Lesson;
 use App\Policies\UserPolicy;
 use App\Policies\CoursePolicy;
 use App\Policies\LessonPolicy;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Http\Request;
+
+// use App\Provider\Route;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -29,8 +34,27 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->registerPolicies();
+    // $this->configureRateLimiting();
 
-        // يمكنك إضافة Gates إضافية هنا إذا needed
+    // $this->routes(function () {
+    //         Route::prefix('api')
+    //             ->middleware('api')
+    //             ->namespace($this->namespace)
+    //             ->group(base_path('routes/api.php'));
+
+    //         Route::middleware('web')
+    //             ->namespace($this->namespace)
+    //             ->group(base_path('routes/web.php'));
+    //     });
+    RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by(
+                $request->user()?->id ?: $request->Ip()
+            );
+        });
+    }
+
+    protected function configureRateLimiting(): void
+    {
+        
     }
 }
