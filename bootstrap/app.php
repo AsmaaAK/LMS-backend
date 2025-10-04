@@ -22,7 +22,6 @@ return Application::configure(basePath: dirname(__DIR__))
       $middleware->alias([
         'role' => \App\Http\Middleware\CheckRole::class,
        ]);
-        // تكوين middleware لمجموعة API
         $middleware->api(prepend: [
             EnsureFrontendRequestsAreStateful::class,
            // $middleware->statefulApi();
@@ -32,7 +31,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // أو بدلاً من ذلك يمكنك استخدام:
         $middleware->group('api', [
             'throttle:api',
-            EnsureFrontendRequestsAreStateful::class,
+            // EnsureFrontendRequestsAreStateful::class,
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \Illuminate\Http\Middleware\HandleCors::class,

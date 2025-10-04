@@ -73,10 +73,9 @@ class StudentController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Student is already enrolled in this course.'
-                ], 400);
+                ], 403);
             }
 
-            // تسجيل الطالب في الكورس
             $user->courses()->attach($courseId, [
                 'enrolled_at' => now(),
                 'progress' => 0

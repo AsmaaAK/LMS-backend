@@ -1,0 +1,17 @@
+{
+    "email": "user9522c94f@example.com",
+    "password": "password1234",
+    "register_response": {
+        "message": "User registered successfully",
+        "user": {
+            "name": "New User",
+            "email": "user9522c94f@example.com",
+            "updated_at": "2025-09-25T12:45:54.000000Z",
+            "created_at": "2025-09-25T12:45:54.000000Z",
+            "id": 1,
+            "roles": []
+        },
+        "access_token": "1|pKM2edgSVb4ANB6De5WmdKUYaEQZ7ITu3AgyEyTWa0f6b1d6",
+        "token_type": "Bearer"
+    }
+}

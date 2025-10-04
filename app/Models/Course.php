@@ -15,7 +15,7 @@ class Course extends Model
     const LEVEL_ADVANCED = 'advanced';
 
     protected $fillable = [
-        'title', 'description', 'image', 'category_id', 'user_id', 
+        'title', 'description', 'image', 'category_id', 'user_id',
         'level', 'price', 'is_published'
     ];
 
@@ -45,12 +45,15 @@ class Course extends Model
         return $this->hasMany(Enrollment::class);
     }
 
-    public function students()
-    {
-        return $this->belongsToMany(User::class, 'enrollments')
-                    ->withPivot('progress', 'enrolled_at', 'completed_at')
-                    ->withTimestamps();
-    }
+    // app/Models/Course.php
+
+public function students()
+{
+    return $this->belongsToMany(User::class, 'enrollments')
+                ->withPivot('progress', 'enrolled_at')
+                ->withTimestamps();
+}
+
 
     // السمات (Attributes)
     public function getTotalLessonsAttribute()

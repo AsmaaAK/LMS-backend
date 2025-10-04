@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     const ROLE_STUDENT = 'student';
     const ROLE_TEACHER = 'teacher';
@@ -90,7 +90,7 @@ class User extends Authenticatable
     {
         return ucfirst($this->role);
     }
-    
+
     public function roles()
     {
         return $this->belongsToMany(\App\Models\Role::class);
@@ -103,7 +103,9 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        return $this->roles()->where('name', $role)->exists();
+        // return $this->roles()->where('name', $role)->exists();
+            return $this->role === $role;
+
     }
 
     public function hasAnyRole($roles)
@@ -119,12 +121,15 @@ class User extends Authenticatable
      })
      ->exists();
     }
-    public function courses()
-    {
-        return $this->belongsToMany(Course::class, 'course_student')
-                    ->withPivot('progress', 'enrolled_at')
-                    ->withTimestamps();
-    }
+    // app/Models/User.php
+
+public function courses()
+{
+    return $this->belongsToMany(Course::class, 'enrollments')
+                ->withPivot('progress', 'enrolled_at')
+                ->withTimestamps();
+}
+
 
     public function completedLessons()
     {
@@ -132,5 +137,5 @@ class User extends Authenticatable
                     ->withPivot('completed_at')
                     ->withTimestamps();
     }
-    
+
 }

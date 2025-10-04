@@ -9,11 +9,12 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-       
+
         User::factory()->admin()->create([
             'name' => 'Admin User',
             'email' => 'admin@lms.com',
             'password' => bcrypt('password'),
+            'role' => 'admin'
         ]);
 
         User::factory()->manager()->create([
@@ -34,8 +35,8 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-       
+
         User::factory()->teacher()->count(5)->create();
-        User::factory()->student()->count(20)->create();
+        User::factory()->student()->count(5)->create();
     }
 }

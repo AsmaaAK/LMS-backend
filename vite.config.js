@@ -9,5 +9,11 @@ export default defineConfig({
             refresh: true,
         }),
         tailwindcss(),
+        server: {
+        proxy: {
+        '/api': 'http://localhost:8000',
+        '/sanctum': 'http://localhost:8000'
+        }
+    }
     ],
 });

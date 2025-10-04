@@ -12,6 +12,7 @@ class UserPolicy
     public function viewAny(User $user)
     {
         return $user->hasRole('admin');
+        return $user->role === 'admin';
     }
 
     public function view(User $user, User $model)
